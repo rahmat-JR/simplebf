@@ -5,13 +5,13 @@ try:
 	import requests
 except ImportError:
 	print("\n ! module requests belum terinstall")
-	os.system("pip install requests" if os.name == "nt" else "pip2 install requests")
+	os.system("pip2 install requests")
 
 try:
 	import bs4
 except ImportError:
 	print("\n ! module bs4 belum terinstall")
-	os.system("pip install bs4" if os.name == "nt" else "pip2 install bs4")
+	os.system("pip2 install bs4")
 
 import os, sys, re, time, requests, json, random, bs4, calendar
 from multiprocessing.pool import ThreadPool
@@ -405,8 +405,7 @@ def mobile(user):
 			bl = ["lsd","jazoest","m_ts","li","try_number","unrecognized_tries","login"]
 			for i in b("input"):
 				try:
-					if i.get("name") in bl:
-						kwargs.update({i.get("name"):i.get("value")})
+					if i.get("name") in bl:kwargs.update({i.get("name"):i.get("value")})
 					else:continue
 				except:pass
 			kwargs.update({"email": uid,"pass": pw,"prefill_contact_point": "","prefill_source": "","prefill_type": "","first_prefill_source": "","first_prefill_type": "","had_cp_prefilled": "false","had_password_prefilled": "false","is_smart_lock": "false","_fb_noscript": "true"})
@@ -459,8 +458,7 @@ def manual():
 				bl = ["lsd","jazoest","m_ts","li","try_number","unrecognized_tries","login"]
 				for i in b("input"):
 					try:
-						if i.get("name") in bl:
-							kwargs.update({i.get("name"):i.get("value")})
+						if i.get("name") in bl:kwargs.update({i.get("name"):i.get("value")})
 						else:continue
 					except:pass
 				kwargs.update({"email": uid,"pass": pw,"prefill_contact_point": "","prefill_source": "","prefill_type": "","first_prefill_source": "","first_prefill_type": "","had_cp_prefilled": "false","had_password_prefilled": "false","is_smart_lock": "false","_fb_noscript": "true"})
