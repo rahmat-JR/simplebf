@@ -191,8 +191,7 @@ def massal():
 	except:tanya_total=1
 	print("\n * isi 'me' jika ingin dari daftar teman")
 	for t in range(tanya_total):
-		total_id +=1
-		idt = raw_input(" + id target %s : "%(total_id))
+		idt = raw_input(" + id target : ")
 		try:
 			for i in requests.get("https://graph.facebook.com/%s/friends?access_token=%s"%(idt, token)).json()["data"]:
 				uid = i["id"]
