@@ -16,5 +16,6 @@ $ python2 run.py
 ```
 
 # CATATAN
-```
-* jangan gunakan akun pribadi !
+
+* jangan gunakan akun pribadi
+* jangan lupa kasih bintang dan share 
