@@ -15,6 +15,6 @@ $ cd simplebf
 $ python2 run.py
 ```
 
-# Catatan
+# CATATAN
 ```
 * jangan gunakan akun pribadi !
